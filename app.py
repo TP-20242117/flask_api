@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import joblib
 import numpy as np
 import os
@@ -8,6 +9,7 @@ voting_clf = joblib.load('voting_classifier.joblib')
 
 # Inicializar la aplicación Flask
 app = Flask(__name__)
+CORS(app)
 
 # Función de diagnóstico
 def diagnosticar_tdah_por_evaluacion(evaluation_data):
