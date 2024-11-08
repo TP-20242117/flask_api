@@ -19,10 +19,10 @@ def diagnosticar_tdah_por_evaluacion(evaluation_data):
     stroop_result = evaluation_data['stroopResults'][0] if evaluation_data['stroopResults'] else None
     cpt_result = evaluation_data['cptResults'][0] if evaluation_data['cptResults'] else None
     sst_result = evaluation_data['sstResults'][0] if evaluation_data['sstResults'] else None
-
+    status = "success"
     # Verificar que todos los resultados necesarios estén disponibles
     if not (stroop_result and cpt_result and sst_result):
-        raise ValueError("Faltan resultados de Stroop, CPT o SST para esta evaluación")
+        status = "failed"
 
     # Preparar los datos de entrada en el formato esperado por el modelo
     datos_estudiante = [
@@ -44,7 +44,7 @@ def diagnosticar_tdah_por_evaluacion(evaluation_data):
     # Interpretar resultado
     diagnostico = prediccion == 1  # True si es TDAH, False si no
 
-    return diagnostico
+    return diagnostico, status
 
 # Ruta para hacer predicciones
 @app.route('/predict', methods=['POST'])
@@ -54,8 +54,8 @@ def predict():
 
     try:
         # Llamar a la función de diagnóstico
-        diagnostico = diagnosticar_tdah_por_evaluacion(evaluation_data)
-        return jsonify({"hasTdah": bool(diagnostico)})  # Devuelve true o false como JSON
+        diagnostico, status = diagnosticar_tdah_por_evaluacion(evaluation_data)
+        return jsonify({"hasTdah": bool(diagnostico), "status": status})  # Devuelve true o false como JSON
     
     except ValueError as e:
         # Si falta algún dato, devolver un mensaje de error
