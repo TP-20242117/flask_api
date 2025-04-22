@@ -59,11 +59,20 @@ def predict():
     diagnostico, status = diagnosticar_tdah_por_evaluacion(evaluation_data)
 
     if status != "success":
-        # Retorna un error de datos incompletos en formato JSON, con código 400
-        return jsonify({"hasTdah": None, "status": "failed", "message": status}), 400
+        return jsonify({
+            "hasTdah": None,
+            "status": "failed",
+            "message": status,
+            "datos_recibidos": evaluation_data, 
+            "versión": "1.0.1"
+        }), 400
 
-    # Si todos los datos están correctos, devuelve el diagnóstico
-    return jsonify({"hasTdah": bool(diagnostico), "status": status})
+    return jsonify({
+        "hasTdah": bool(diagnostico),
+        "status": status,
+        "datos_recibidos": evaluation_data, 
+        "versión": "1.0.1" 
+    })
 
 # Ejecutar la aplicación
 if __name__ == '__main__':
