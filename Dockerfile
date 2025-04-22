@@ -20,4 +20,4 @@ ENV FLASK_APP=app.py
 EXPOSE 8080
 
 # Run the Flask application
-CMD ["python3", "app.py"]
+CMD ["python3", "app/app.py"]
