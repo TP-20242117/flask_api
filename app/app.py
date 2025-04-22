@@ -13,10 +13,7 @@ CORS(app)
 
 # Función de diagnóstico
 def diagnosticar_tdah_por_evaluacion(evaluation_data):
-    """
-    Diagnostica TDAH basado en los datos de una evaluación obtenida.
-    Se espera que `evaluation_data` tenga los resultados de Stroop, CPT y SST.
-    """
+
     # Extraer resultados de Stroop, CPT y SST de los datos de la evaluación
     stroop_result = evaluation_data.get('stroopResults', [None])[0]
     cpt_result = evaluation_data.get('cptResults', [None])[0]
